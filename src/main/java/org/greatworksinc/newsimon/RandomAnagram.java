@@ -16,7 +16,7 @@ public class RandomAnagram {
 	public String generateAnagram(String inputString) {
 		ArrayList<Character> anagram = new ArrayList<Character>();
 		for (char letter : inputString.toCharArray()) {
-			anagram.add(random.nextInt(anagram.size()), letter);
+			anagram.add(random.nextInt(Math.max(anagram.size(), 1)), letter);
 		}
 		StringBuilder sb = new StringBuilder();
 		for (char letter : anagram) {
