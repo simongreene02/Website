@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.greatworksinc.newsimon.models.Employee;
+
 public class EmployeeDAO {
   // JDBC driver name and database URL
   private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
@@ -33,6 +35,11 @@ public class EmployeeDAO {
       sql = "select * from Employee where Department = 'CITY COUNCIL'";
       ResultSet rs = stmt.executeQuery(sql);
 
+      Employee employee = Employee.builder()
+          .name("bob")
+          .salary("$1")
+          .build();
+            
       // STEP 5: Extract data from result set
       while (rs.next()) {
         // Retrieve by column name
