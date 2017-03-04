@@ -30,28 +30,33 @@ public class Employee {
   @Override
   public boolean equals(Object obj) {
     if (obj instanceof Employee) {
-      Employee that = (Employee)obj;
+      Employee that = (Employee) obj;
       // check null if we allow variable to be null
-      return  this.name.equals(that.name) 
-          && this.job.equals(that.job)
-          && this.department.equals(that.department)
+      return this.name.equals(that.name) && this.job.equals(that.job) && this.department.equals(that.department)
           && this.salary.equals(that.salary);
     }
     return false;
   }
-  
+
+  @Override
+  public String toString() {
+    StringBuilder builder2 = new StringBuilder();
+    builder2.append("Employee [name=").append(name).append(", job=").append(job).append(", department=")
+        .append(department).append(", salary=").append(salary).append("]");
+    return builder2.toString();
+  }
+
   public static class Builder {
     private String name;
-    private String job ;
-    private String department ;
-    private String salary ;
-    
-    
+    private String job;
+    private String department;
+    private String salary;
+
     public Builder name(String name) {
       this.name = name;
       return this;
     }
-    
+
     public Builder job(String job) {
       this.job = job;
       return this;

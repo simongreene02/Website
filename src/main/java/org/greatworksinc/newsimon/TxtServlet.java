@@ -16,10 +16,12 @@ import javax.servlet.http.HttpServletResponse;
 
 public class TxtServlet extends HttpServlet {
 	private RandomAnagram anagram;
+	private EmployeeDAO dao;
 
 	@Override
 	public void init() {
 		anagram = new RandomAnagram();
+		dao = new EmployeeDAO();
 	}
 
 	@Override
@@ -55,6 +57,7 @@ public class TxtServlet extends HttpServlet {
 			}
 			out.println("</table>");
 		}
+		out.println(dao.findEmployees());
 		out.println("</body>");
 		out.println("</html>");
 	}

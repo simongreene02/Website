@@ -5,81 +5,50 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 import org.greatworksinc.newsimon.models.Employee;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import com.google.common.collect.ImmutableList;
+
+//TODO Externalize all the data-related constants
 public class EmployeeDAO {
+  private static final Logger log = LoggerFactory.getLogger(EmployeeDAO.class);
   // JDBC driver name and database URL
-  private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+  private static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
   private static final String DB_URL = "jdbc:mysql://localhost/workers";
 
   // Database credentials
   private static final String USER = "root";
   private static final String PASS = "simongreene";
+  private static final String ALL_EMPLOYEES = "select * from Employee";
 
-  public static void main(String[] args) {
-    Connection conn = null;
-    Statement stmt = null;
+  public EmployeeDAO() {
     try {
-      // STEP 2: Register JDBC driver
-      Class.forName("com.mysql.jdbc.Driver");
+      Class.forName(JDBC_DRIVER);
+    } catch (ClassNotFoundException e) {
+      throw new RuntimeException(e);
+    }
+  }
 
-      // STEP 3: Open a connection
-      System.out.println("Connecting to database...");
-      conn = DriverManager.getConnection(DB_URL, USER, PASS);
+  public List<Employee> findEmployees() {
+    ImmutableList.Builder<Employee> employees = ImmutableList.builder();
 
-      // STEP 4: Execute a query
-      System.out.println("Creating statement...");
-      stmt = conn.createStatement();
-      String sql;
-      sql = "select * from Employee where Department = 'CITY COUNCIL'";
-      ResultSet rs = stmt.executeQuery(sql);
-
-      Employee employee = Employee.builder()
-          .name("bob")
-          .salary("$1")
-          .build();
-            
-      // STEP 5: Extract data from result set
+    try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(ALL_EMPLOYEES);) {
       while (rs.next()) {
-        // Retrieve by column name
-        int id = rs.getInt("ID");
-        String name = rs.getString("Name");
-        String job = rs.getString("Title");
-        String department = rs.getString("Department");
-        String salary = rs.getString("Salary");
-
-        // Display values
-        System.out.print("ID: " + id);
-        System.out.print(", Name: " + name);
-        System.out.print(", Job: " + job);
-        System.out.print(", Department: " + department);
-        System.out.println(", Salary: " + salary);
+        Employee employee = Employee.builder().name(rs.getString("Name")).job(rs.getString("Title"))
+            .department(rs.getString("Department")).salary(rs.getString("Salary")).build();
+        employees.add(employee);
       }
-      // STEP 6: Clean-up environment
-      rs.close();
-      stmt.close();
-      conn.close();
-    } catch (SQLException se) {
-      // Handle errors for JDBC
-      se.printStackTrace();
-    } catch (Exception e) {
-      // Handle errors for Class.forName
-      e.printStackTrace();
-    } finally {
-      // finally block used to close resources
-      try {
-        if (stmt != null)
-          stmt.close();
-      } catch (SQLException se2) {
-      } // nothing we can do
-      try {
-        if (conn != null)
-          conn.close();
-      } catch (SQLException se) {
-        se.printStackTrace();
-      } // end finally try
-    } // end try
-    System.out.println("Goodbye!");
-  }// end main
+
+    } catch (SQLException e) {
+      log.warn("SQL failed", e);
+    }
+    return employees.build();
+  }
+
 }// end FirstExample
