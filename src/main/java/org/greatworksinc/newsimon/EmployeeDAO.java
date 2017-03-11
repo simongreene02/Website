@@ -24,6 +24,7 @@ public class EmployeeDAO {
   private static final String USER = "root";
   private static final String PASS = "simongreene";
   private static final String ALL_EMPLOYEES = "select * from Employee";
+  private static final String EMPLOYEES_BY_DEPARTMENT = "select * from Employee where Department = '";
 
   public EmployeeDAO() {
     try {
@@ -39,6 +40,25 @@ public class EmployeeDAO {
     try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery(ALL_EMPLOYEES);) {
+      while (rs.next()) {
+        Employee employee = Employee.builder().name(rs.getString("Name")).job(rs.getString("Title"))
+            .department(rs.getString("Department")).salary(rs.getString("Salary")).build();
+        employees.add(employee);
+      }
+
+    } catch (SQLException e) {
+      log.warn("SQL failed", e);
+    }
+    return employees.build();
+  }
+
+  public List<Employee> findEmployeesByDepartment(String department) {
+    ImmutableList.Builder<Employee> employees = ImmutableList.builder();
+
+    try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+        Statement stmt = conn.createStatement();
+        //TODO validate department to avoid XSS 
+        ResultSet rs = stmt.executeQuery(EMPLOYEES_BY_DEPARTMENT + department + "'");) {
       while (rs.next()) {
         Employee employee = Employee.builder().name(rs.getString("Name")).job(rs.getString("Title"))
             .department(rs.getString("Department")).salary(rs.getString("Salary")).build();

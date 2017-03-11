@@ -17,9 +17,17 @@
     <servlet-name>TxtServlet</servlet-name>
     <servlet-class>org.greatworksinc.newsimon.TxtServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>EmployeeServlet</servlet-name>
+    <servlet-class>org.greatworksinc.employee.EmployeeServlet</servlet-class>
+  </servlet>
   <servlet-mapping>
     <servlet-name>TxtServlet</servlet-name>
     <url-pattern>/kicks</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>EmployeeServlet</servlet-name>
+    <url-pattern>/punches</url-pattern>
   </servlet-mapping>
 </web-app>
 
