@@ -18,7 +18,7 @@ public class EmployeeDAO {
   private static final Logger log = LoggerFactory.getLogger(EmployeeDAO.class);
   // JDBC driver name and database URL
   private static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-  private static final String DB_URL = "jdbc:mysql://localhost/workers";
+  private static final String DB_URL = "jdbc:mysql://localhost/workers&useSSL=false";
 
   // Database credentials
   private static final String USER = "root";

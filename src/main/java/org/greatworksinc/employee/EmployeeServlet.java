@@ -29,11 +29,20 @@ public class EmployeeServlet extends HttpServlet {
     response.setCharacterEncoding("UTF-8");
     PrintWriter out = response.getWriter();
 
-    out.println("<!DOCTYPE html><html><body>");
+    out.println("<!DOCTYPE html><html><head><style>table, th, td {border: 1px solid black;}</style></head><body>");
+
+    out.println("<table><tr><th>ID</th><th>Name</th><th>Title</th><th>Department</th><th>Salary</th></tr>");
     
-    out.println(employees);
-    out.println("</body>");
+    employees.forEach(employee -> out.println(
+        String.format("<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>", 
+            employee.getId(),
+            employee.getName(),
+            employee.getJob(),
+            employee.getDepartment(),
+            employee.getSalary())));
+    
+    out.println("</table></body>");
     out.println("</html>");
-    
+
   }
 }

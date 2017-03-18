@@ -18,6 +18,31 @@ public class Employee {
     this.salary = checkNotNull(emptyToNull(builder.salary));
   }
 
+  
+  public String getId() {
+    return "0"; //TODO Add ID detection
+  }
+  
+  public String getName() {
+    return name;
+  }
+
+
+  public String getJob() {
+    return job;
+  }
+
+
+  public String getDepartment() {
+    return department;
+  }
+
+
+  public String getSalary() {
+    return salary;
+  }
+
+
   public static Builder builder() {
     return new Builder();
   }
