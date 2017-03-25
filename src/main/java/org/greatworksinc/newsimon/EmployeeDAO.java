@@ -18,8 +18,8 @@ public class EmployeeDAO {
   private static final Logger log = LoggerFactory.getLogger(EmployeeDAO.class);
   // JDBC driver name and database URL
   private static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-  private static final String DB_URL = "jdbc:mysql://localhost/workers&useSSL=false";
-
+  //private static final String DB_URL = "jdbc:mysql://localhost/workers&useSSL=false";
+  private static final String DB_URL = "jdbc:mysql://localhost/workers?verifyServerCertificate=false&serverTimezone=UTC&useSSL=true";
   // Database credentials
   private static final String USER = "root";
   private static final String PASS = "simongreene";
@@ -39,7 +39,7 @@ public class EmployeeDAO {
 
     try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
         Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery(ALL_EMPLOYEES);) {
+        ResultSet rs = stmt.executeQuery(ALL_EMPLOYEES)) {
       while (rs.next()) {
         Employee employee = Employee.builder().name(rs.getString("Name")).job(rs.getString("Title"))
             .department(rs.getString("Department")).salary(rs.getString("Salary")).build();
@@ -58,7 +58,7 @@ public class EmployeeDAO {
     try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
         Statement stmt = conn.createStatement();
         //TODO validate department to avoid XSS 
-        ResultSet rs = stmt.executeQuery(EMPLOYEES_BY_DEPARTMENT + department + "'");) {
+        ResultSet rs = stmt.executeQuery(EMPLOYEES_BY_DEPARTMENT + department + "'")) {
       while (rs.next()) {
         Employee employee = Employee.builder().name(rs.getString("Name")).job(rs.getString("Title"))
             .department(rs.getString("Department")).salary(rs.getString("Salary")).build();

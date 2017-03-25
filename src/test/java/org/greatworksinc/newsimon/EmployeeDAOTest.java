@@ -12,7 +12,7 @@ public class EmployeeDAOTest {
   @Test
   public void findEmployeesByDepartment() {
     
-    assertThat(new EmployeeDAO().findEmployeesByDepartment("CITY COUNCIL")).hasSize(4);
+    assertThat(new EmployeeDAO().findEmployeesByDepartment("CITY COUNCIL")).hasSize(396);
   }
 
 }
