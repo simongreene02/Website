@@ -21,6 +21,10 @@
     <servlet-name>EmployeeServlet</servlet-name>
     <servlet-class>org.greatworksinc.employee.EmployeeServlet</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>JspExampleServlet</servlet-name>
+  	<servlet-class>com.djd.fun.txtserve.JspExampleServlet</servlet-class>
+  </servlet>
   <servlet-mapping>
     <servlet-name>TxtServlet</servlet-name>
     <url-pattern>/kicks</url-pattern>
@@ -28,6 +32,10 @@
   <servlet-mapping>
     <servlet-name>EmployeeServlet</servlet-name>
     <url-pattern>/punches</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>JspExampleServlet</servlet-name>
+    <url-pattern>/jspstuff</url-pattern>
   </servlet-mapping>
 </web-app>
 
