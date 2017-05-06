@@ -1,5 +1,6 @@
 package org.greatworksinc.employee;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -11,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.greatworksinc.newsimon.EmployeeDAO;
 import org.greatworksinc.newsimon.models.Employee;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class EmployeeServlet extends HttpServlet {
   private EmployeeDAO dao;
@@ -44,5 +47,16 @@ public class EmployeeServlet extends HttpServlet {
     out.println("</table></body>");
     out.println("</html>");
 
+    saveToDisk(employees);
+  }
+
+  private void saveToDisk(List<Employee> employees) {
+    ObjectMapper mapper = new ObjectMapper();
+    try {
+      mapper.writeValue(new File("JsonOutput.json"), employees);
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
   }
 }

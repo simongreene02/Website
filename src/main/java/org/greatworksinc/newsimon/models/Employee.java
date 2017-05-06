@@ -3,6 +3,10 @@ package org.greatworksinc.newsimon.models;
 import com.google.common.base.Objects;
 import static com.google.common.base.Strings.emptyToNull;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class Employee {
@@ -11,6 +15,7 @@ public class Employee {
   private final String department;
   private final String salary;
 
+  @JsonCreator
   private Employee(Builder builder) {
     this.name = checkNotNull(emptyToNull(builder.name));
     this.job = checkNotNull(emptyToNull(builder.job));
@@ -18,7 +23,7 @@ public class Employee {
     this.salary = checkNotNull(emptyToNull(builder.salary));
   }
 
-  
+  @JsonIgnore
   public String getId() {
     return "0"; //TODO Add ID detection
   }
@@ -77,21 +82,25 @@ public class Employee {
     private String department;
     private String salary;
 
+    @JsonProperty("name")
     public Builder name(String name) {
       this.name = name;
       return this;
     }
 
+    @JsonProperty("job")
     public Builder job(String job) {
       this.job = job;
       return this;
     }
 
+    @JsonProperty("department")
     public Builder department(String department) {
       this.department = department;
       return this;
     }
 
+    @JsonProperty("salary")
     public Builder salary(String salary) {
       this.salary = salary;
       return this;

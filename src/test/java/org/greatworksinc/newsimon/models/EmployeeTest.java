@@ -1,7 +1,13 @@
 package org.greatworksinc.newsimon.models;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.junit.Test;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.testing.EqualsTester;
 
 public class EmployeeTest {
@@ -22,6 +28,13 @@ public class EmployeeTest {
   public void empty() {
 
     builder().name("").build();
+  }
+  
+  @Test
+  public void json() throws JsonGenerationException, JsonMappingException, IOException {
+    ObjectMapper mapper = new ObjectMapper();
+    mapper.writeValue(new File("JsonOutput.json"), builder().build());
+    Employee retrieved = mapper.readValue(new File("JsonOutput.json"), Employee.class);
   }
 
   private Employee.Builder builder() {
