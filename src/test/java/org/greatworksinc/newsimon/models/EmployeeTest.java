@@ -9,6 +9,7 @@ import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.testing.EqualsTester;
+import static com.google.common.truth.Truth.assertThat;
 
 public class EmployeeTest {
 
@@ -33,8 +34,13 @@ public class EmployeeTest {
   @Test
   public void json() throws JsonGenerationException, JsonMappingException, IOException {
     ObjectMapper mapper = new ObjectMapper();
+    /* These are just for experiment
     mapper.writeValue(new File("JsonOutput.json"), builder().build());
+    assertThat(mapper.writeValueAsString(builder().build())).isEqualTo("{\"name\":\"Nhoj Htims\",\"job\":\"Wall\",\"department\":\"Worker\",\"salary\":\"2^32\"}");
     Employee retrieved = mapper.readValue(new File("JsonOutput.json"), Employee.class);
+     */
+    Employee retrieved = mapper.readValue(mapper.writeValueAsString(builder().build()), Employee.class);
+    assertThat(retrieved).isEqualTo(builder().build());
   }
 
   private Employee.Builder builder() {

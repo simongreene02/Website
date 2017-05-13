@@ -1,12 +1,8 @@
 package org.greatworksinc.newsimon;
 
-import static com.google.common.truth.Truth.assertThat;
-
 import java.sql.Connection;
 
 import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
 import org.mockito.Mock;
 
 public class EmployeeDAOTest {
